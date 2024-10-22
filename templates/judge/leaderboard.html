@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block content %}
+    <style>
+    .pagination {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .step-links {
+        display: inline-block;
+    }
+
+    .step-links a {
+        margin: 0 5px;
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    .step-links .current {
+        font-weight: bold;
+        margin: 0 5px;
+    }
+
+    #header {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    /* Create a horizontally scrollable area for the problem columns */
+    .scrollable-columns {
+        overflow-x: auto;
+        white-space: nowrap;
+        padding: 0;
+        margin: 0;
+    }
+
+    .scrollable-wrapper {
+        display: inline-block;
+    }
+
+    .scrollable-wrapper table {
+        border-spacing: 0;
+    }
+
+    /* Optional: Fix the first columns (Rank, User, Penalty, and Score) */
+    .leaderboard-wrapper {
+        overflow-x: auto;
+    }
+    </style>
+    <div class="container">
+        <h2 id="header">{{ contest.name }} Leaderboard</h2>
+        <div class="leaderboard-wrapper">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>User</th>
+                        <th class="scrollable-columns">
+                            <div class="scrollable-wrapper">
+                                <table>
+                                    <tr>
+                                        {% for problem in problems %}
+                                            <th>{{ problem.name|truncatechars:3 }}</th>
+                                            <!-- Problem names as columns -->
+                                        {% endfor %}
+                                    </tr>
+                                </table>
+                            </div>
+                        </th>
+                        <th>Penalty (seconds)</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in leaderboard %}
+                        <tr>
+                            <td>{{ forloop.counter0|add:leaderboard.start_index }}</td>
+                            <!-- Rank based on the loop -->
+                            <td>{{ entry.participant.username }}</td>
+                            <td class="scrollable-columns">
+                                <div class="scrollable-wrapper">
+                                    <table>
+                                        <tr>
+                                            {% for problem in problems %}
+                                                <td>
+                                                    {% if problem in entry.solved_problems.all %}
+                                                        ✅
+                                                    {% else %}
+                                                        ❌
+                                                    {% endif %}
+                                                </td>
+                                            {% endfor %}
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                            <td>{{ entry.penalty }}</td>
+                            <td>{{ entry.score }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="{{ problems }}">No entries yet!</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">
+            <span class="step-links">
+                {% if leaderboard.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ leaderboard.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="current">Page {{ leaderboard.number }} of {{ leaderboard.paginator.num_pages }}.</span>
+                {% if leaderboard.has_next %}
+                    <a href="?page={{ leaderboard.next_page_number }}">next</a>
+                    <a href="?page={{ leaderboard.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+{% endblock %}

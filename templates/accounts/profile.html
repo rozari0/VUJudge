@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <h2>{{ user.username }}'s Profile</h2>
+        <!-- Basic User Information -->
+        <div class="user-info">
+            <p>
+                <strong>Username:</strong> {{ user.username }}
+            </p>
+            <p>
+                <strong>Email:</strong> {{ user.email }}
+            </p>
+            <p>
+                <strong>Date Joined:</strong> {{ user.date_joined|date:"F j, Y" }}
+            </p>
+            <p>
+                <strong>Last Login:</strong> {{ user.last_login|date:"F j, Y, g:i a" }}
+            </p>
+        </div>
+        <hr>
+        <!-- Submissions Section -->
+        <div class="user-submissions">
+            <h3>Recent Submissions</h3>
+            {% if submissions %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Submission ID</th>
+                            <th>Problem</th>
+                            <th>Status</th>
+                            <th>Language</th>
+                            <th>Submission Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for submission in submissions %}
+                            <tr>
+                                <td>{{ submission.id }}</td>
+                                <td>
+                                    <a href="{% url 'problem_detail' submission.problem.contest.id submission.problem.id %}">{{ submission.problem.name }}</a>
+                                </td>
+                                <td>{{ submission.get_status_display }}</td>
+                                <td>{{ submission.language }}</td>
+                                <td>{{ submission.submitted_at|date:"F j, Y, g:i a" }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No submissions found for this user.</p>
+            {% endif %}
+        </div>
+        <hr>
+    </div>
+{% endblock %}

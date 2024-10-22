@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <!-- Problem Info -->
+        <p>
+            <strong>Problem:</strong> {{ problem.name }}
+        </p>
+        <!-- Submissions List -->
+        <div class="submissions-list">
+            <h3>All Submissions by {{ user.username }}</h3>
+            {% for submission in submissions %}
+                <div class="submission-item">
+                    <h4>Submission ID: {{ submission.id }}</h4>
+                    <p>
+                        <strong>Submission Status:</strong> {{ submission.get_status_display }}
+                    </p>
+                    <p>
+                        <strong>Language:</strong> {{ submission.language.name }}
+                    </p>
+                    <p>
+                        <strong>Submitted Solution:</strong>
+                    </p>
+                    <pre>{{ submission.user_solution }}</pre>
+                    <!-- Test Case Results -->
+                    <h5>Test Case Results:</h5>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Test Case</th>
+                                <th>Status</th>
+                                <th>Output</th>
+                                <th>Expected Output</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for test_case_submission in submission.test_case_submissions.all %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ test_case_submission.test_case.input }}</td>
+                                    <td>
+                                        {% if test_case_submission.success %}
+                                            <span class="success">Success</span>
+                                        {% else %}
+                                            <span class="fail">Failed</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <pre>{{ test_case_submission.output }}</pre>
+                                    </td>
+                                    <td>
+                                        <pre>{{ test_case_submission.test_case.output }}</pre>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <hr>
+                </div>
+            {% empty %}
+                <p>No submissions found for this problem.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ contest.name }} - VUOJ{% endblock %}
+{% block content %}
+    <!-- templates/contest_detail.html -->
+    <h1>{{ contest.name }}</h1>
+    <p>
+        <strong>Start Time:</strong> {{ contest.start_time|date:"M d, Y H:i" }}
+    </p>
+    <p>
+        <strong>End Time:</strong> {{ contest.end_time|date:"M d, Y H:i" }}
+    </p>
+    <p>
+        <strong>Status:</strong>
+        {% if contest.status == "N" %}
+            <span style="color: grey;">Not Started Yet</span>
+        {% elif contest.status == "R" %}
+            <span style="color: green;">Running</span>
+        {% elif contest.status == "F" %}
+            <span style="color: orange;">Finished</span>
+        {% endif %}
+    </p>
+    {% if contest.status == "R" %}
+        <p>
+            <strong>Time Left:</strong>
+            {{ time_left }}
+        </p>
+    {% elif contest.status == "N" %}
+        <p>
+            <strong>Starts in:</strong>
+            {{ time_left }}
+        </p>
+    {% endif %}
+    <h2>Problems</h2>
+    {% if problems and contest.status != "N" %}
+        <table>
+            <tr>
+                <td>Problem Title</td>
+                <td>Difficulty</td>
+            </tr>
+            {% for problem in problems %}
+                <tr>
+                    <td>
+                        <a href="{% url 'problem_detail' contest.id problem.id %}">{{ problem.name }}</a>
+                    </td>
+                    <td>{{ problem.get_difficulty_display }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No problems available for this contest.</p>
+    {% endif %}
+{% endblock %}

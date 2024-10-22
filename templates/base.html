@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="color-scheme" content="light dark">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/pico.min.css' %}">
+        <title>
+            {% block title %}VUJUDGE{% endblock %}
+        </title>
+    </head>
+    <body>
+        <main class="container">
+            <div id="navbar">
+                <nav class="container-fluid">
+                    <!-- Left side: Logo and main navigation links -->
+                    <ul>
+                        <li>
+                            <strong><a href="{% url 'homepage' %}">VUOJ</a></strong>
+                        </li>
+                        <li>
+                            <a href="{% url 'contests' %}">Contests</a>
+                        </li>
+                        <li>
+                            <a href="#">Edu</a>
+                        </li>
+                    </ul>
+                    <!-- Right side: User profile and action links -->
+                    {% if user.is_authenticated %}
+                        <ul>
+                            <li>
+                                <a href="#">{{ user.username }}</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'account_logout' %}">Log Out</a>
+                            </li>
+                        </ul>
+                    {% else %}
+                        <ul>
+                            <li>
+                                <a href="{% url 'account_signup' %}">Register</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'account_login' %}">Sign In</a>
+                            </li>
+                        </ul>
+                    {% endif %}
+                </nav>
+            </div>
+            <div id="content container-fluid">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </body>
+</html>
