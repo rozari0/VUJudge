@@ -1,4 +1,4 @@
-from datetime import timedelta, datetime, tzinfo, timezone
+from datetime import timedelta, datetime, timezone
 
 
 from django.http import HttpResponse
@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView
 
 from .forms import ProblemSubmissionForm
-from .models import Contest, Problem, ProblemSubmission, TestCaseSubmission, LeaderBoard
+from .models import Contest, Problem, ProblemSubmission, LeaderBoard
 from .utils import create_submission_testcase
 from django.core.paginator import Paginator
 

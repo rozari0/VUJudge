@@ -63,7 +63,7 @@
             </div>
             <hr>
             <h2>Description</h2>
-            <p>{{ problem.description|linebreaks }}</p>
+            <p>{{ problem.description | safe }}</p>
             <h3>Difficulty</h3>
             <p>{{ problem.get_difficulty_display }}</p>
             {% if problem.is_open %}

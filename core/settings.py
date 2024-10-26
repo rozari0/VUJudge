@@ -53,6 +53,7 @@ INSTALLED_APPS += [
 INSTALLED_APPS += [
     "accounts.apps.AccountsConfig",
     "judge.apps.JudgeConfig",
+'import_export',
 ]
 
 # Third Party APPS
@@ -157,10 +158,7 @@ AUTH_USER_MODEL = "accounts.User"
 SITE_ID = 1
 ACCOUNT_EMAIL_VERIFICATION = "none"
 ALLAUTH_UI_THEME = "night"
-ACCOUNT_EMAIL_NOTIFICATIONS = True
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
-ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_FORMS = {
     "add_email": "allauth.account.forms.AddEmailForm",
     "change_password": "allauth.account.forms.ChangePasswordForm",
@@ -170,6 +168,7 @@ ACCOUNT_FORMS = {
     "reset_password": "allauth.account.forms.ResetPasswordForm",
     "reset_password_from_key": "allauth.account.forms.ResetPasswordKeyForm",
     "set_password": "allauth.account.forms.SetPasswordForm",
-    "signup": "accounts.forms.RegistrationForm",  # Changed
+    "signup": 'allauth.account.forms.SignupForm',
     "user_token": "allauth.account.forms.UserTokenForm",
 }
+ACCOUNT_ADAPTER = 'accounts.account_adapter.NoNewUsersAccountAdapter'

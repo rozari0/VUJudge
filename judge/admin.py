@@ -1,5 +1,9 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin, TabularInline
+from import_export.admin import ImportExportModelAdmin
+from unfold.contrib.import_export.forms import ExportForm, ImportForm
+from unfold.contrib.forms.widgets import WysiwygWidget
+from django.db import models
 
 from .models import (
     Contest,
@@ -21,7 +25,15 @@ class TestCaseTabularInline(TabularInline):
     extra = 1
 
 
-class ProblemAdmin(ModelAdmin):
+class ProblemAdmin(ModelAdmin, ImportExportModelAdmin):
+    import_form_class = ImportForm
+    export_form_class = ExportForm
+    formfield_overrides = {
+        models.TextField: {
+            "widget": WysiwygWidget,
+        }
+    }
+
     inlines = [TestCaseTabularInline]
 
 
@@ -33,8 +45,10 @@ class TestCaseSubmissionInline(TabularInline):
     extra = 1
 
 
-class ProblemSubmissionAdmin(ModelAdmin):
+class ProblemSubmissionAdmin(ModelAdmin, ImportExportModelAdmin):
     inlines = [TestCaseSubmissionInline]
+    import_form_class = ImportForm
+    export_form_class = ExportForm
 
 
 admin.site.register(ProblemSubmission, ProblemSubmissionAdmin)
