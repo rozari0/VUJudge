@@ -1,6 +1,6 @@
 from httpx import post
 
-from .models import TestCaseSubmission, LeaderBoard
+from .models import LeaderBoard, TestCaseSubmission
 
 
 def create_submission_testcase(request, submission):
@@ -37,7 +37,7 @@ def create_submission_testcase(request, submission):
                     and leaderboard.contest.status == "R"
                 ):
                     leaderboard.solved_problems.add(submission.problem)
-                    leaderboard.score += submission.problem.difficulty
+                    leaderboard.score += 1
                     leaderboard.save()
             else:
                 submission.status = submission.SubmissionStatus.UNMATCHED

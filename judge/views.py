@@ -1,18 +1,18 @@
-from datetime import timedelta, datetime, timezone
+from datetime import datetime, timedelta, timezone
 
-
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView
 
 from .forms import ProblemSubmissionForm
-from .models import Contest, Problem, ProblemSubmission, LeaderBoard
+from .models import Contest, LeaderBoard, Problem, ProblemSubmission
 from .utils import create_submission_testcase
-from django.core.paginator import Paginator
 
 
 def homepage(request):
-    return render(request, "judge/homepage.html")
+    contests = Contest.objects.all()
+    return render(request, "judge/homepage.html", context={"contests": contests})
 
 
 class ContestListView(ListView):
@@ -95,4 +95,13 @@ def contest_leaderboard(request, pk):
         request,
         "judge/leaderboard.html",
         {"leaderboard": page_obj, "problems": problems},
+    )
+
+def submit_problem_extra_view(request, contest_id, pk):
+    problem = get_object_or_404(Problem, id=pk)
+    contest = get_object_or_404(Contest, id=contest_id)
+    return render(
+        request,
+        "judge/problems/submit.html",
+        {"problem": problem, "contest": contest, "form": ProblemSubmissionForm()},
     )

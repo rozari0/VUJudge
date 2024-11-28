@@ -1,19 +1,12 @@
 from django.contrib import admin
-from unfold.admin import ModelAdmin, TabularInline
-from import_export.admin import ImportExportModelAdmin
-from unfold.contrib.import_export.forms import ExportForm, ImportForm
-from unfold.contrib.forms.widgets import WysiwygWidget
 from django.db import models
+from import_export.admin import ImportExportModelAdmin
+from unfold.admin import ModelAdmin, TabularInline
+from unfold.contrib.forms.widgets import WysiwygWidget
+from unfold.contrib.import_export.forms import ExportForm, ImportForm
 
-from .models import (
-    Contest,
-    Language,
-    Problem,
-    ProblemSubmission,
-    TestCase,
-    TestCaseSubmission,
-    LeaderBoard,
-)
+from .models import (Contest, Language, LeaderBoard, Problem,
+                     ProblemSubmission, TestCase, TestCaseSubmission)
 
 # Register your models here.
 

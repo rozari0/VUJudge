@@ -9,4 +9,19 @@
             Made with Django and Piston.
         </p>
     </hgroup>
+    {% if contests %}
+        <h1>Contests</h1>
+        <ul>
+            {% for contest in contests %}
+                <li>
+                    <a href="{% url 'contest_detail' contest.id %}"> <strong>{{ contest.name }}</strong></a>
+                    <br>
+                    Start Time: {{ contest.start_time|date:"M d, Y H:i" }}
+                    <br>
+                    End Time: {{ contest.end_time|date:"M d, Y H:i" }}
+                </li>
+                <hr>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endblock %}

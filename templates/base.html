@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="{% static 'css/pico.min.css' %}">
         <title>
             {% block title %}VUJUDGE{% endblock %}
+            - VUJudge
         </title>
     </head>
     <body>
@@ -22,15 +23,12 @@
                         <li>
                             <a href="{% url 'contests' %}">Contests</a>
                         </li>
-                        <li>
-                            <a href="#">Edu</a>
-                        </li>
                     </ul>
                     <!-- Right side: User profile and action links -->
                     {% if user.is_authenticated %}
                         <ul>
                             <li>
-                                <a href="#">{{ user.username }}</a>
+                                <a href="{% url 'profile' %}">{{ user.username }}</a>
                             </li>
                             <li>
                                 <a href="{% url 'account_logout' %}">Log Out</a>

@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,7 +20,6 @@ if DEBUG:
         "*",
     ]
     CSRF_TRUSTED_ORIGINS = ["https://*.ngrok-free.app"]
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
 # Application definition
@@ -33,11 +31,8 @@ INSTALLED_APPS = [
     "unfold.contrib.import_export",  # optional, if django-import-export package is used
     "unfold.contrib.guardian",  # optional, if django-guardian package is used
     "unfold.contrib.simple_history",  # optional, if django-simple-history package is used
-    "allauth_ui",
     "allauth",
     "allauth.account",
-    "widget_tweaks",
-    "slippers",
 ]
 
 INSTALLED_APPS += [
@@ -53,7 +48,7 @@ INSTALLED_APPS += [
 INSTALLED_APPS += [
     "accounts.apps.AccountsConfig",
     "judge.apps.JudgeConfig",
-'import_export',
+    "import_export",
 ]
 
 # Third Party APPS
@@ -70,6 +65,7 @@ MIDDLEWARE = [
 ]
 MIDDLEWARE += [
     "allauth.account.middleware.AccountMiddleware",
+    "django.contrib.auth.middleware.LoginRequiredMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -168,7 +164,7 @@ ACCOUNT_FORMS = {
     "reset_password": "allauth.account.forms.ResetPasswordForm",
     "reset_password_from_key": "allauth.account.forms.ResetPasswordKeyForm",
     "set_password": "allauth.account.forms.SetPasswordForm",
-    "signup": 'allauth.account.forms.SignupForm',
+    "signup": "allauth.account.forms.SignupForm",
     "user_token": "allauth.account.forms.UserTokenForm",
 }
-ACCOUNT_ADAPTER = 'accounts.account_adapter.NoNewUsersAccountAdapter'
+ACCOUNT_ADAPTER = "accounts.account_adapter.NoNewUsersAccountAdapter"
