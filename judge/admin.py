@@ -5,8 +5,15 @@ from unfold.admin import ModelAdmin, TabularInline
 from unfold.contrib.forms.widgets import WysiwygWidget
 from unfold.contrib.import_export.forms import ExportForm, ImportForm
 
-from .models import (Contest, Language, LeaderBoard, Problem,
-                     ProblemSubmission, TestCase, TestCaseSubmission)
+from .models import (
+    Contest,
+    Language,
+    LeaderBoard,
+    Problem,
+    ProblemSubmission,
+    TestCase,
+    TestCaseSubmission,
+)
 
 # Register your models here.
 
@@ -46,6 +53,10 @@ class ProblemSubmissionAdmin(ModelAdmin, ImportExportModelAdmin):
 
 admin.site.register(ProblemSubmission, ProblemSubmissionAdmin)
 
-admin.site.register(Language, ModelAdmin)
+class LanguageAdmin(ModelAdmin, ImportExportModelAdmin):
+    import_form_class = ImportForm
+    export_form_class = ExportForm
+
+admin.site.register(Language, LanguageAdmin)
 
 admin.site.register(LeaderBoard, ModelAdmin)

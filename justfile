@@ -8,6 +8,7 @@ migrate: migrate-first migrate-last
 format:
     uv run isort .
     uv run black .
+    uv run djlint templates --reformat
 
 clean:
     find "${@:-.}" -type f -name "*.py[co]" -delete
@@ -16,4 +17,11 @@ clean:
     find "${@:-.}" -depth -type d -name ".pytest_cache" -exec rm -r "{}" +
 createadmin:
     uv run python manage.py createsuperuser
+
+install-packages:
+    uv sync
+
+setup: install-packages migrate createadmin
+    
+
 default: run

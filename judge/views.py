@@ -97,6 +97,7 @@ def contest_leaderboard(request, pk):
         {"leaderboard": page_obj, "problems": problems},
     )
 
+
 def submit_problem_extra_view(request, contest_id, pk):
     problem = get_object_or_404(Problem, id=pk)
     contest = get_object_or_404(Contest, id=contest_id)

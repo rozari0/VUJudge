@@ -83,7 +83,15 @@ class TestCase(models.Model):
 
 
 class Language(models.Model):
-    name = models.CharField(help_text="The name of the language", max_length=100)
+    name = models.CharField(
+        max_length=100,
+        help_text="The name of the language for users",
+        null=True,
+        blank=True,
+    )
+    language = models.CharField(
+        help_text="The name of the language in piston API.", max_length=100
+    )
     version = models.CharField(
         max_length=100, help_text="The version of the language", default=""
     )
@@ -98,7 +106,9 @@ class Language(models.Model):
     )
 
     def __str__(self):
-        return self.name + " (" + str(self.version) + ")"
+        return (
+            self.name if self.name else self.language + " (" + str(self.version) + ")"
+        )
 
 
 class ProblemSubmission(models.Model):
@@ -107,6 +117,7 @@ class ProblemSubmission(models.Model):
         RUNNING = "R", "Running"
         RUNTIMEERROR = "RE", "RuntimeError"
         MEMOERYLIMIITEXCEEDED = "ME", "Memory Limit Exceeded"
+        TIMELIMITEXCEEDED = "TO", "Time Limit Exceeded"
         UNMATCHED = "U", "Unmatched"
         ERROR = "E", "Error"
 

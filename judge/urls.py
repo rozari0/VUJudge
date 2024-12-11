@@ -1,8 +1,14 @@
 from django.urls import path
 
-from .views import (ContestListView, contest_detail, contest_leaderboard,
-                    homepage, problem_detail, problem_submit,
-                    submit_problem_extra_view)
+from .views import (
+    ContestListView,
+    contest_detail,
+    contest_leaderboard,
+    homepage,
+    problem_detail,
+    problem_submit,
+    submit_problem_extra_view,
+)
 
 urlpatterns = [
     path("", homepage, name="homepage"),
@@ -24,10 +30,9 @@ urlpatterns = [
         contest_leaderboard,
         name="contest_leaderboard",
     ),
-path(
+    path(
         "contests/<int:contest_id>/problem/<int:pk>/submit/",
         submit_problem_extra_view,
         name="problem_submit_get",
     ),
-
 ]

@@ -19,11 +19,11 @@
             <span style="color: orange;">Finished</span>
         {% endif %}
     </p>
-<p>
-    <a href="{% url 'contest_leaderboard' contest.id %}">
-                <button>Leaderboard</button>
-            </a>
-</p>
+    <p>
+        <a href="{% url 'contest_leaderboard' contest.id %}">
+            <button>Leaderboard</button>
+        </a>
+    </p>
     {% if contest.status == "R" %}
         <p>
             <strong>Time Left:</strong>

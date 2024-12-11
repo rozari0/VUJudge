@@ -1,4 +1,5 @@
 from httpx import post
+from icecream import ic
 
 from .models import LeaderBoard, TestCaseSubmission
 
@@ -9,9 +10,9 @@ def create_submission_testcase(request, submission):
         contest=submission.problem.contest, participant=request.user
     )[0]
     for case in submission.problem.test_cases.all():
-        print(case, case.id, case.input, case.output)
+        ic(case, case.id, case.input, case.output)
         data = {
-            "language": submission.language.name,
+            "language": submission.language.language,
             "version": submission.language.version,
             "files": [{"content": submission.user_solution}],
             "stdin": case.input,
@@ -24,6 +25,7 @@ def create_submission_testcase(request, submission):
         r = post("http://127.0.0.1:2000/api/v2/execute", json=data)
 
         r_json = r.json()
+        ic(r_json)
 
         test_case_submission = TestCaseSubmission(
             base_submission=submission, test_case=case
@@ -42,6 +44,20 @@ def create_submission_testcase(request, submission):
             else:
                 submission.status = submission.SubmissionStatus.UNMATCHED
                 error = 1
+        elif r_json.get("run").get("status") == "TO":
+            submission.status = submission.SubmissionStatus.TIMELIMITEXCEEDED
+            test_case_submission.output = (
+                "Time limit exceeded for your code. Please optimize your code."
+            )
+            error = 1
+        elif r_json.get("run").get("status") == "RE":
+            submission.status = submission.SubmissionStatus.RUNTIMEERROR
+            test_case_submission.output = (
+                r_json.get("run").get("stderr")
+                if r_json.get("run").get("stderr")
+                else r_json.get("run").get("output")
+            )
+            error = 1
         elif r_json.get("run").get("code") == 137:
             submission.status = submission.SubmissionStatus.MEMOERYLIMIITEXCEEDED
             test_case_submission.output = r_json.get("run").get("message")

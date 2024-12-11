@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}{{ problem.name }} - VUOJ{% endblock %}
+{% block title %}{{ problem.name }}{% endblock %}
 {% block content %}
     <style>
 @media (max-width: 768px) {
@@ -22,35 +22,8 @@
 
     </style>
     {% load static %}
-    <script src="{% static 'js/ace.js' %}"></script>
     <!-- templates/problem_detail.html -->
     <div style="display: flex;">
-        <!-- Modal -->
-        <dialog id="modal">
-            <article>
-                <header>
-                    <button id="close_modal" aria-label="Close" rel="prev"></button>
-                    <p>
-                        <strong>Submit Solution for {{ problem.name }}</strong>
-                    </p>
-                </header>
-                <form method="POST"
-                      action="{% url 'problem_submit' contest.id problem.id %}">
-                    {% csrf_token %}
-                    {{ form.language.as_field_group }}
-                    <label for="code">Your Code:</label>
-                    <textarea name="user_solution" cols="40" rows="10" aria-describedby="id_user_solution_helptext" id="id_user_solution" style="display: none">
-</textarea>
-                    <div id="editor" style="height: 400px;"></div>
-                    <!-- CodeMirror editor -->
-                    <button type="submit" id="submit">Submit</button>
-                </form>
-                <footer style="display: flex;
-                               justify-content: space-between;
-                               margin-top: 20px">
-                </footer>
-            </article>
-        </dialog>
         <!-- Main content area for Problem Details -->
         <div style="width: 80%">
             <h1 style="text-align: center;">{{ problem.name }}</h1>
@@ -76,9 +49,6 @@
         <!-- Sidebar with Submission Menu -->
         <div id="menu" style="width: 20%; justify-content: space-around;">
             <h3>Menu</h3>
-            <a id="open_modal" href="#">
-                <button>Submit OnPage</button>
-            </a>
             <a href="{% url 'problem_submit_get' contest.id problem.id %}">
                 <button>Submit</button>
             </a>
@@ -86,34 +56,6 @@
             <a href="{% url 'problem_submit' contest.id problem.id %}">
                 <button>Your Submissions</button>
             </a>
-
         </div>
     </div>
-    <script>
-        // Open modal
-document.getElementById('open_modal').addEventListener('click', function() {
-    document.getElementById('modal').showModal();
-});
-
-// Close modal
-document.getElementById('close_modal').addEventListener('click', function() {
-    document.getElementById('modal').close();
-});
-
-   
-    </script>
-    <script>
-    var editor = ace.edit("editor");
-    editor.session.setMode("ace/mode/text");  // You can change this to the language you want (e.g., "ace/mode/python")
-    editor.setTheme("ace/theme/monokai");  // You can change the theme
-    editor.setOptions({
-        showLineNumbers: true,  // Enable line numbers
-        tabSize: 4
-    });
-
-    // On form submit, set the textarea value to Ace Editor content
-    document.querySelector('form').addEventListener('submit', function() {
-        document.getElementById('id_user_solution').value = editor.getValue();
-    });
-    </script>
 {% endblock %}

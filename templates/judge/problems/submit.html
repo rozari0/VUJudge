@@ -1,34 +1,28 @@
 {% extends "base.html" %}
 {% block title %}{{ problem.name }} - VUOJ{% endblock %}
 {% block content %}
-
     {% load static %}
     <script src="{% static 'js/ace.js' %}"></script>
-
-        <div >
-            <article>
-                <header>
-
-                    <p>
-                        <strong>Submit Solution for {{ problem.name }}</strong>
-                    </p>
-                </header>
-                <form method="POST"
-                      action="{% url 'problem_submit' contest.id problem.id %}">
-                    {% csrf_token %}
-                    {{ form.language.as_field_group }}
-                    <label for="code">Your Code:</label>
-                    <textarea name="user_solution" cols="40" rows="10" aria-describedby="id_user_solution_helptext" id="id_user_solution" style="display: none">
+    <div>
+        <article>
+            <header>
+                <p>
+                    <strong>Submit Solution for {{ problem.name }}</strong>
+                </p>
+            </header>
+            <form method="POST"
+                  action="{% url 'problem_submit' contest.id problem.id %}">
+                {% csrf_token %}
+                {{ form.language.as_field_group }}
+                <label for="code">Your Code:</label>
+                <textarea name="user_solution" cols="40" rows="10" aria-describedby="id_user_solution_helptext" id="id_user_solution" style="display: none">
 </textarea>
-                    <div id="editor" style="height: 800px; width: 100%"></div>
-                    <!-- CodeMirror editor -->
-                    <button type="submit" id="submit">Submit</button>
-                </form>
-
-            </article>
-        </div>
-
-
+                <div id="editor" style="height: 800px; width: 100%"></div>
+                <!-- CodeMirror editor -->
+                <button type="submit" id="submit">Submit</button>
+            </form>
+        </article>
+    </div>
     <script>
     var editor = ace.edit("editor");
     editor.session.setMode("ace/mode/text");  // You can change this to the language you want (e.g., "ace/mode/python")
