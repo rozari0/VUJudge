@@ -40,21 +40,11 @@ class Problem(models.Model):
     contest = models.ForeignKey(
         Contest, on_delete=models.CASCADE, help_text="The contest"
     )
-
-    class Difficulty(models.IntegerChoices):
-        super_easy = 1, "Super Easy"
-        easy = 2, "Easy"
-        medium = 3, "Medium"
-        hard = 4, "Hard"
-        super_hard = 5, "Super Hard"
-
     name = models.CharField(max_length=100, help_text="The name of the problem")
     description = models.TextField(
         help_text="The description of the problem [Markdown]"
     )
-    difficulty = models.IntegerField(
-        choices=Difficulty.choices, help_text="The difficulty of the problem"
-    )
+
     time_limit = models.IntegerField(
         help_text="The time limit of the problem (in seconds)", default=2
     )
@@ -115,7 +105,7 @@ class ProblemSubmission(models.Model):
     class SubmissionStatus(models.TextChoices):
         SUCCEED = "S", "Succeed"
         RUNNING = "R", "Running"
-        RUNTIMEERROR = "RE", "RuntimeError"
+        RUNTIMEERROR = "RE", "Runtime Error"
         MEMOERYLIMIITEXCEEDED = "ME", "Memory Limit Exceeded"
         TIMELIMITEXCEEDED = "TO", "Time Limit Exceeded"
         UNMATCHED = "U", "Unmatched"

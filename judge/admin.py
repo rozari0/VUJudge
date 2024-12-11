@@ -53,9 +53,11 @@ class ProblemSubmissionAdmin(ModelAdmin, ImportExportModelAdmin):
 
 admin.site.register(ProblemSubmission, ProblemSubmissionAdmin)
 
+
 class LanguageAdmin(ModelAdmin, ImportExportModelAdmin):
     import_form_class = ImportForm
     export_form_class = ExportForm
+
 
 admin.site.register(Language, LanguageAdmin)
 

@@ -1,5 +1,8 @@
 from pathlib import Path
 
+from decouple import config
+from pygments.lexer import default
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -11,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-vn&ng*v_levv=a@v8mr1=o(mfm=&iy*%&3&rd!61e98h=tv1zl"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG", default=True, cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -21,6 +24,7 @@ if DEBUG:
     ]
     CSRF_TRUSTED_ORIGINS = ["https://*.ngrok-free.app"]
 
+PISTON_API_BASE = config("PISTON_API_BASE", default="http://127.0.0.1:2000")
 
 # Application definition
 INSTALLED_APPS = [

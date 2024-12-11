@@ -1,3 +1,4 @@
+from django.conf import settings
 from httpx import post
 from icecream import ic
 
@@ -22,7 +23,7 @@ def create_submission_testcase(request, submission):
             "compile_timeout": submission.problem.time_limit * 1000,
             "run_memory_limit": submission.problem.memory_limit * 1000000,
         }
-        r = post("http://127.0.0.1:2000/api/v2/execute", json=data)
+        r = post(f"{settings.PISTON_API_BASE}/api/v2/execute", json=data)
 
         r_json = r.json()
         ic(r_json)
