@@ -6,8 +6,7 @@ migrate-first:
     uv run python manage.py makemigrations
 migrate: migrate-first migrate-last
 format:
-    uv run isort .
-    uv run black .
+    uv run ruff format
     uv run djlint templates --reformat
 
 clean:
